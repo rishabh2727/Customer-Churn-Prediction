@@ -45,3 +45,13 @@ Outputs:
 - `segmentation_summary.json`
   - selected `K` by silhouette score and cluster-level averages used for naming.
 
+## Retention Dashboard (Streamlit)
+
+```bash
+python3 -m streamlit run streamlit_app.py
+```
+
+The dashboard reads:
+- `churn_segments.csv` (segments + risk scores)
+- `Customer-Churn-Records.csv` (features like geography/age/product)
+
