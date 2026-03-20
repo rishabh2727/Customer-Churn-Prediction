@@ -25,3 +25,23 @@ python3 churn_modeling.py --data "Customer-Churn-Records.csv" --out "churn_risk_
 2. `model_comparison_report.json`
    - Held-out test metrics comparing the three models (AUC, Avg Precision, Brier score, F1@0.5).
 
+## Customer Segmentation (KMeans)
+
+This creates unsupervised customer segments and then labels each cluster into bank-friendly groups using the churn risk scores.
+
+```bash
+python3 churn_segmentation.py --data "Customer-Churn-Records.csv" --scores "churn_risk_scores.csv" --out "churn_segments.csv" --summary "segmentation_summary.json"
+```
+
+Outputs:
+
+- `churn_segments.csv`
+  - `CustomerId`
+  - `cluster_id`
+  - `logistic_regression_churn_risk_0_100`
+  - `churn_proba_avg`
+  - `segment_name` (e.g., `loyal high value`, `low engagement`, `at risk`)
+
+- `segmentation_summary.json`
+  - selected `K` by silhouette score and cluster-level averages used for naming.
+

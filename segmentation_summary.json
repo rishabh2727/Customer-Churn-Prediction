@@ -1,0 +1,68 @@
+{
+  "data_path": "Customer-Churn-Records.csv",
+  "scores_path": "churn_risk_scores.csv",
+  "selected_k": 3,
+  "silhouette_by_k": {
+    "3": 0.10640690354113674,
+    "4": 0.10353583611093224,
+    "5": 0.10441756128115785,
+    "6": 0.09967793823369146
+  },
+  "n_customers": 10000,
+  "cluster_feature_names": [
+    "Balance",
+    "EstimatedSalary",
+    "Tenure",
+    "Age",
+    "CreditScore",
+    "NumOfProducts",
+    "IsActiveMember",
+    "Complain",
+    "Satisfaction Score",
+    "HasCrCard",
+    "Point Earned"
+  ],
+  "thresholds_used_for_naming": {
+    "risk_high": 0.967111418638245,
+    "value_high": 117303.1878,
+    "tenure_loyal": 5.0,
+    "active_high": 0.55,
+    "satisfaction_high": 4.0,
+    "complain_high": 1.0
+  },
+  "clusters": [
+    {
+      "cluster_id": 0,
+      "segment_name": "loyal high value",
+      "count": 4610,
+      "mean_churn_proba_avg": 0.0011891880862221064,
+      "mean_balance": 121967.38044685464,
+      "mean_tenure": 4.972017353579176,
+      "mean_is_active_member": 0.561822125813449,
+      "mean_satisfaction_score": 3.020824295010846,
+      "mean_complain": 0.0
+    },
+    {
+      "cluster_id": 2,
+      "segment_name": "low engagement",
+      "count": 3372,
+      "mean_churn_proba_avg": 0.008362589798146067,
+      "mean_balance": 4827.677529655991,
+      "mean_tenure": 5.113285883748517,
+      "mean_is_active_member": 0.5450771055753262,
+      "mean_satisfaction_score": 3.0130486358244366,
+      "mean_complain": 0.00771055753262159
+    },
+    {
+      "cluster_id": 1,
+      "segment_name": "at risk",
+      "count": 2018,
+      "mean_churn_proba_avg": 0.9924339588375184,
+      "mean_balance": 92324.25192765113,
+      "mean_tenure": 4.938057482656095,
+      "mean_is_active_member": 0.3582755203171457,
+      "mean_satisfaction_score": 2.9990089197224976,
+      "mean_complain": 1.0
+    }
+  ]
+}

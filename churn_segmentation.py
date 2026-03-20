@@ -9,6 +9,9 @@ from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from sklearn.preprocessing import StandardScaler
 
+import warnings
+
+warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 def _safe_mean(series: pd.Series) -> float:
     return float(series.mean()) if len(series) else float("nan")
@@ -84,8 +87,8 @@ def _label_cluster(
     if risk_high and tenure_not_loyal and active_low:
         return "at risk"
 
-    # Loyal high value: low risk + strong value + longer tenure.
-    if risk_low and value_high and tenure_loyal:
+    # Loyal high value: low risk + strong value + (long tenure OR strong engagement).
+    if risk_low and value_high and (tenure_loyal or active_high):
         return "loyal high value"
 
     # Low engagement: low risk and weaker engagement/experience.
@@ -126,8 +129,10 @@ def segment_customers(
     merged["churn_proba_avg"] = merged[proba_cols].mean(axis=1)
 
     # Engagement/value feature set for KMeans (numeric + binary only).
+    # Important: we DO NOT include churn risk inside the KMeans features.
+    # Clustering should be unsupervised in the customer-behavior space;
+    # we add churn-based cluster labels after clustering.
     cluster_features = [
-        "churn_proba_avg",
         "Balance",
         "EstimatedSalary",
         "Tenure",
@@ -161,12 +166,17 @@ def segment_customers(
 
     # Thresholds for naming clusters (quantile-based, robust to scaling).
     thresholds = {
-        "risk_high": float(merged["churn_proba_avg"].quantile(0.75)),
+        # churn_proba_avg is highly bimodal in this dataset (near ~0.001 vs ~0.99),
+        # so we use a high quantile to reserve "at risk" for the extreme cluster.
+        "risk_high": float(merged["churn_proba_avg"].quantile(0.8)),
         "value_high": float(merged["Balance"].quantile(0.66)),
-        "tenure_loyal": float(merged["Tenure"].quantile(0.66)),
-        "active_high": float(merged["IsActiveMember"].quantile(0.66)),
+        # Tenure is in 0..10 with many values around 5, so use the median.
+        "tenure_loyal": float(merged["Tenure"].quantile(0.5)),
+        # For a binary feature, using a quantile often yields 0 or 1.
+        # Using 0.55 separates "mostly inactive" clusters from the rest.
+        "active_high": 0.55,
         "satisfaction_high": float(merged["Satisfaction Score"].quantile(0.66)),
-        "complain_high": float(merged["Complain"].quantile(0.66)),
+        "complain_high": 1.0,
     }
 
     cluster_rows: List[Dict[str, object]] = []
