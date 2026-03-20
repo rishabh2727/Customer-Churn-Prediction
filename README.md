@@ -55,3 +55,12 @@ The dashboard reads:
 - `churn_segments.csv` (segments + risk scores)
 - `Customer-Churn-Records.csv` (features like geography/age/product)
 
+### Automated Retention Emails
+Inside the dashboard, use the section **Automated Retention Email Generator** to:
+- choose a specific at-risk customer and generate a ready-to-send personalized email (subject + body)
+- the app builds a short customer profile summary and sends it to your selected AI provider (OpenAI or Claude)
+
+API keys:
+- OpenAI: set `OPENAI_API_KEY` (optional: `OPENAI_MODEL`)
+- Anthropic/Claude: set `ANTHROPIC_API_KEY` (optional: `ANTHROPIC_MODEL`)
+
