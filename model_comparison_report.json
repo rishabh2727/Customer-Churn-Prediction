@@ -1,0 +1,38 @@
+{
+  "data_path": "Customer-Churn-Records.csv",
+  "rows": 10000,
+  "churn_rate": 0.2038,
+  "random_state": 42,
+  "test_size": 0.2,
+  "num_features": 11,
+  "cat_features": 3,
+  "metrics_by_model": {
+    "logistic_regression": {
+      "threshold": 0.5,
+      "roc_auc": 0.9988037614543306,
+      "avg_precision": 0.9972989307848253,
+      "brier_score": 0.0015646523778674423,
+      "precision_at_threshold": 0.9975429975429976,
+      "recall_at_threshold": 0.9950980392156863,
+      "f1_at_threshold": 0.996319018404908
+    },
+    "xgboost": {
+      "threshold": 0.5,
+      "roc_auc": 0.9982572174598483,
+      "avg_precision": 0.997125000842698,
+      "brier_score": 0.001502077466871968,
+      "precision_at_threshold": 0.9975429975429976,
+      "recall_at_threshold": 0.9950980392156863,
+      "f1_at_threshold": 0.996319018404908
+    },
+    "neural_net_mlp": {
+      "threshold": 0.5,
+      "roc_auc": 0.9980724701941078,
+      "avg_precision": 0.997762932067609,
+      "brier_score": 0.0019238938077537136,
+      "precision_at_threshold": 0.9975369458128078,
+      "recall_at_threshold": 0.9926470588235294,
+      "f1_at_threshold": 0.995085995085995
+    }
+  }
+}
