@@ -3,9 +3,35 @@ import json
 import re
 from typing import Dict, List, Optional, Tuple
 
-from dotenv import load_dotenv
+def _load_env_file(path: str = ".env") -> None:
+    """
+    Minimal .env loader (key=value) to avoid relying on python-dotenv.
 
-load_dotenv()
+    - Only sets variables that are not already present in the environment.
+    - Ignores blank lines and comments starting with '#'.
+    """
+    if not os.path.exists(path):
+        return
+
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            for raw in f:
+                line = raw.strip()
+                if not line or line.startswith("#") or "=" not in line:
+                    continue
+                key, value = line.split("=", 1)
+                key = key.strip()
+                value = value.strip().strip('"').strip("'")
+                if key and key not in os.environ:
+                    os.environ[key] = value
+    except OSError:
+        # If .env can't be read, we'll just rely on existing env vars.
+        return
+
+
+_load_env_file()
+
+
 
 import numpy as np
 import pandas as pd
